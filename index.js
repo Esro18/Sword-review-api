@@ -24,16 +24,14 @@ app.get("/review", async (req, res) => {
         const canvas = createCanvas(bg.width, bg.height);
         const ctx = canvas.getContext("2d");
 
-        // الخلفية
         ctx.drawImage(bg, 0, 0, canvas.width, canvas.height);
 
-        // 🟣 الأفاتار داخل الدائرة (نزّلناه ووديناه يمين شوي)
+        // 🟣 الأفاتار داخل الدائرة (نزلناه شوي)
         const avatarResp = await axios.get(avatar, { responseType: "arraybuffer" });
         const avatarImg = await loadImage(avatarResp.data);
 
-        // مركز الدائرة
-        const avatarCenterX = 170; // كان 155
-        const avatarCenterY = 175; // كان 155
+        const avatarCenterX = 170; // يمين شوي
+        const avatarCenterY = 190; // نزلناه تحت أكثر
         const avatarRadius = 65;
 
         ctx.save();
@@ -41,8 +39,6 @@ app.get("/review", async (req, res) => {
         ctx.arc(avatarCenterX, avatarCenterY, avatarRadius, 0, Math.PI * 2);
         ctx.closePath();
         ctx.clip();
-
-        // نخلي الصورة تتمدد جوّا الدائرة
         ctx.drawImage(
             avatarImg,
             avatarCenterX - avatarRadius,
@@ -52,13 +48,12 @@ app.get("/review", async (req, res) => {
         );
         ctx.restore();
 
-        // 🟦 الاسم على الشريط الأزرق يمين الدائرة
+        // 🟦 الاسم بجانب الدائرة على نفس خط منتصفها
         ctx.fillStyle = "#ffffff";
         ctx.font = "bold 40px Arial";
         ctx.textAlign = "left";
         ctx.textBaseline = "middle";
-        ctx.fillText(username, avatarCenterX + avatarRadius + 25, avatarCenterY); 
-        // يعني x = يمين الدائرة + 25 ، y = نفس منتصف الدائرة
+        ctx.fillText(username, avatarCenterX + avatarRadius + 30, avatarCenterY);
 
         // 🟪 نص التقييم داخل المربع الكبير بالمنتصف
         ctx.font = "bold 42px Arial";
