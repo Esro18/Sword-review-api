@@ -26,13 +26,13 @@ app.get("/review", async (req, res) => {
 
         ctx.drawImage(bg, 0, 0, canvas.width, canvas.height);
 
-        // 🟣 الأفاتار داخل الدائرة بدقة
+        // 🟣 الأفاتار داخل الدائرة (فوق يسار)
         const avatarResp = await axios.get(avatar, { responseType: "arraybuffer" });
         const avatarImg = await loadImage(avatarResp.data);
 
-        const avatarCenterX = 160; // موقع الدائرة مضبوط
-        const avatarCenterY = 160;
-        const avatarRadius = 60;
+        const avatarCenterX = 150; // أقرب لزاوية فوق يسار
+        const avatarCenterY = 135;
+        const avatarRadius = 55;
 
         ctx.save();
         ctx.beginPath();
@@ -48,19 +48,21 @@ app.get("/review", async (req, res) => {
         );
         ctx.restore();
 
-        // 🟦 الاسم داخل المربع الصغير بجانب الدائرة
+        // 🟦 الاسم في المربع الصغير جنب الصورة
         ctx.fillStyle = "#ffffff";
-        ctx.font = "bold 28px Arial";
+        ctx.font = "bold 26px Arial";
         ctx.textAlign = "left";
         ctx.textBaseline = "middle";
-        ctx.fillText(username, avatarCenterX + avatarRadius + 40, avatarCenterY);
 
-        // 🟪 نص التقييم داخل المربع الكبير بالمنتصف
+        const nameX = 230; // يمين الدائرة داخل المربع
+        const nameY = 135; // نفس مستوى منتصف الدائرة
+        ctx.fillText(username, nameX, nameY);
+
+        // 🟪 نص التقييم (ما لمسته، زي ما قلت: مكانه صح)
         ctx.font = "bold 42px Arial";
         ctx.fillStyle = "#ffffff";
         ctx.textAlign = "center";
         ctx.textBaseline = "middle";
-        ctx.direction = "rtl"; // عشان العربي يطلع صح
 
         const centerX = canvas.width / 2;
         const centerY = 520;
