@@ -30,8 +30,8 @@ app.get("/review", async (req, res) => {
         const avatarResp = await axios.get(avatar, { responseType: "arraybuffer" });
         const avatarImg = await loadImage(avatarResp.data);
 
-        const avatarCenterX = 170; // يمين شوي
-        const avatarCenterY = 190; // نزلناه تحت أكثر
+        const avatarCenterX = 175; // يمين شوي
+        const avatarCenterY = 205; // نزلناه أكثر لتحت
         const avatarRadius = 65;
 
         ctx.save();
@@ -53,7 +53,7 @@ app.get("/review", async (req, res) => {
         ctx.font = "bold 40px Arial";
         ctx.textAlign = "left";
         ctx.textBaseline = "middle";
-        ctx.fillText(username, avatarCenterX + avatarRadius + 30, avatarCenterY);
+        ctx.fillText(username, avatarCenterX + avatarRadius + 35, avatarCenterY);
 
         // 🟪 نص التقييم داخل المربع الكبير بالمنتصف
         ctx.font = "bold 42px Arial";
