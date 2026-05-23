@@ -5,7 +5,6 @@ const { createCanvas, loadImage, GlobalFonts } = require("@napi-rs/canvas");
 
 const app = express();
 
-// تسجيل الخط (اختياري)
 try {
     GlobalFonts.registerFromPath(path.join(process.cwd(), "Arial.ttf"), "Arial");
 } catch (e) {
@@ -19,41 +18,56 @@ app.get("/review", async (req, res) => {
             return res.status(400).send("Missing avatar, username or text");
         }
 
-        // تحميل الخلفية
         const bgPath = path.join(process.cwd(), "review-bg.png");
         const bg = await loadImage(bgPath);
 
         const canvas = createCanvas(bg.width, bg.height);
         const ctx = canvas.getContext("2d");
 
-        // رسم الخلفية
+        // الخلفية
         ctx.drawImage(bg, 0, 0, canvas.width, canvas.height);
 
-        // 🟣 الأفاتار داخل الدائرة بدقة
+        // 🟣 الأفاتار داخل الدائرة (نزّلناه ووديناه يمين شوي)
         const avatarResp = await axios.get(avatar, { responseType: "arraybuffer" });
         const avatarImg = await loadImage(avatarResp.data);
 
+        // مركز الدائرة
+        const avatarCenterX = 170; // كان 155
+        const avatarCenterY = 175; // كان 155
+        const avatarRadius = 65;
+
         ctx.save();
         ctx.beginPath();
-        ctx.arc(155, 155, 65, 0, Math.PI * 2);
+        ctx.arc(avatarCenterX, avatarCenterY, avatarRadius, 0, Math.PI * 2);
         ctx.closePath();
         ctx.clip();
-        ctx.drawImage(avatarImg, 90, 90, 130, 130);
+
+        // نخلي الصورة تتمدد جوّا الدائرة
+        ctx.drawImage(
+            avatarImg,
+            avatarCenterX - avatarRadius,
+            avatarCenterY - avatarRadius,
+            avatarRadius * 2,
+            avatarRadius * 2
+        );
         ctx.restore();
 
-        // 🟦 الاسم بجانب الدائرة في الشريط الأزرق
+        // 🟦 الاسم على الشريط الأزرق يمين الدائرة
         ctx.fillStyle = "#ffffff";
         ctx.font = "bold 40px Arial";
-        ctx.fillText(username, 250, 170);
+        ctx.textAlign = "left";
+        ctx.textBaseline = "middle";
+        ctx.fillText(username, avatarCenterX + avatarRadius + 25, avatarCenterY); 
+        // يعني x = يمين الدائرة + 25 ، y = نفس منتصف الدائرة
 
-        // 🟪 نص التقييم داخل المربع الكبير بالمنتصف تمامًا
+        // 🟪 نص التقييم داخل المربع الكبير بالمنتصف
         ctx.font = "bold 42px Arial";
         ctx.fillStyle = "#ffffff";
         ctx.textAlign = "center";
         ctx.textBaseline = "middle";
 
         const centerX = canvas.width / 2;
-        const centerY = 520; // منتصف المربع الكبير
+        const centerY = 520;
         wrapTextCentered(ctx, text, centerX, centerY, 700, 55);
 
         const buffer = canvas.toBuffer("image/png");
