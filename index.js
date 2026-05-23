@@ -21,7 +21,7 @@ app.get("/review", async (req, res) => {
         const bgPath = path.join(process.cwd(), "review-bg.png");
         const bg = await loadImage(bgPath);
 
-        const canvas = createCanvas(1536, 1024);
+        const canvas = createCanvas(bg.width, bg.height);
         const ctx = canvas.getContext("2d");
 
         ctx.drawImage(bg, 0, 0, canvas.width, canvas.height);
@@ -30,9 +30,9 @@ app.get("/review", async (req, res) => {
         const avatarResp = await axios.get(avatar, { responseType: "arraybuffer" });
         const avatarImg = await loadImage(avatarResp.data);
 
-        const avatarCenterX = 210; // موقع الدائرة بدقة
-        const avatarCenterY = 190;
-        const avatarRadius = 70;
+        const avatarCenterX = 160; // موقع الدائرة مضبوط
+        const avatarCenterY = 160;
+        const avatarRadius = 60;
 
         ctx.save();
         ctx.beginPath();
@@ -50,16 +50,17 @@ app.get("/review", async (req, res) => {
 
         // 🟦 الاسم داخل المربع الصغير بجانب الدائرة
         ctx.fillStyle = "#ffffff";
-        ctx.font = "bold 30px Arial"; // حجم مناسب داخل المربع
+        ctx.font = "bold 28px Arial";
         ctx.textAlign = "left";
         ctx.textBaseline = "middle";
-        ctx.fillText(username, avatarCenterX + avatarRadius + 50, avatarCenterY - 10);
+        ctx.fillText(username, avatarCenterX + avatarRadius + 40, avatarCenterY);
 
         // 🟪 نص التقييم داخل المربع الكبير بالمنتصف
-        ctx.font = "bold 46px Arial";
+        ctx.font = "bold 42px Arial";
         ctx.fillStyle = "#ffffff";
         ctx.textAlign = "center";
         ctx.textBaseline = "middle";
+        ctx.direction = "rtl"; // عشان العربي يطلع صح
 
         const centerX = canvas.width / 2;
         const centerY = 520;
