@@ -5,6 +5,7 @@ const { createCanvas, loadImage, GlobalFonts } = require("@napi-rs/canvas");
 
 const app = express();
 
+// تسجيل الخط (اختياري)
 try {
     GlobalFonts.registerFromPath(path.join(process.cwd(), "Arial.ttf"), "Arial");
 } catch (e) {
@@ -18,15 +19,17 @@ app.get("/review", async (req, res) => {
             return res.status(400).send("Missing avatar, username or text");
         }
 
+        // تحميل الخلفية
         const bgPath = path.join(process.cwd(), "review-bg.png");
         const bg = await loadImage(bgPath);
 
         const canvas = createCanvas(bg.width, bg.height);
         const ctx = canvas.getContext("2d");
 
+        // رسم الخلفية
         ctx.drawImage(bg, 0, 0, canvas.width, canvas.height);
 
-        // 🟣 الأفاتار داخل الدائرة
+        // 🟣 الأفاتار داخل الدائرة بدقة
         const avatarResp = await axios.get(avatar, { responseType: "arraybuffer" });
         const avatarImg = await loadImage(avatarResp.data);
 
@@ -38,10 +41,10 @@ app.get("/review", async (req, res) => {
         ctx.drawImage(avatarImg, 90, 90, 130, 130);
         ctx.restore();
 
-        // 🟦 الاسم بجانب الدائرة
+        // 🟦 الاسم بجانب الدائرة في الشريط الأزرق
         ctx.fillStyle = "#ffffff";
         ctx.font = "bold 40px Arial";
-        ctx.fillText(username, 250, 160);
+        ctx.fillText(username, 250, 170);
 
         // 🟪 نص التقييم داخل المربع الكبير بالمنتصف تمامًا
         ctx.font = "bold 42px Arial";
@@ -49,9 +52,8 @@ app.get("/review", async (req, res) => {
         ctx.textAlign = "center";
         ctx.textBaseline = "middle";
 
-        // تحديد منتصف المربع الكبير بدقة
         const centerX = canvas.width / 2;
-        const centerY = 520; // منتصف المربع الكبير تقريبًا
+        const centerY = 520; // منتصف المربع الكبير
         wrapTextCentered(ctx, text, centerX, centerY, 700, 55);
 
         const buffer = canvas.toBuffer("image/png");
