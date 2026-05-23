@@ -31,7 +31,7 @@ app.get("/review", async (req, res) => {
         const avatarImg = await loadImage(avatarResp.data);
 
         const avatarCenterX = 180; // يمين شوي
-        const avatarCenterY = 180; // نزلناه شوي
+        const avatarCenterY = 250; // نزلناه شوي
         const avatarRadius = 60;
 
         ctx.save();
