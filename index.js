@@ -50,10 +50,11 @@ app.get("/review", async (req, res) => {
 
         // 🟦 الاسم داخل المربع الصغير بجانب الدائرة
         ctx.fillStyle = "#ffffff";
-        ctx.font = "bold 28px Arial"; // تصغير الخط
+        ctx.font = "bold 26px Arial"; // تصغير الخط أكثر
         ctx.textAlign = "left";
         ctx.textBaseline = "middle";
-        ctx.fillText(username, avatarCenterX + avatarRadius + 25, avatarCenterY);
+        ctx.fillText(username, avatarCenterX + avatarRadius + 45, avatarCenterY - 5); 
+        // تحريك الاسم داخل المربع الصغير بدقة
 
         // 🟪 نص التقييم داخل المربع الكبير بالمنتصف
         ctx.font = "bold 42px Arial";
