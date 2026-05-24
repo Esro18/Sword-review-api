@@ -30,8 +30,8 @@ app.get("/review", async (req, res) => {
         const avatarResp = await axios.get(avatar, { responseType: "arraybuffer" });
         const avatarImg = await loadImage(avatarResp.data);
 
-        const avatarCenterX = 180; // يمين أو يسار
-        const avatarCenterY = 175; // فوق أو تحت
+        const avatarCenterX = 310; // يمين أو يسار
+        const avatarCenterY = 240; // فوق أو تحت
         const avatarRadius = 60;   // حجم الدائرة
 
         ctx.save();
