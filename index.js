@@ -26,13 +26,13 @@ app.get("/review", async (req, res) => {
 
         ctx.drawImage(bg, 0, 0, canvas.width, canvas.height);
 
-        // 🟣 الأفاتار داخل الدائرة بدقة
+        // 🟣 الأفاتار داخل الدائرة بدقة (إحداثيات مستقلة)
         const avatarResp = await axios.get(avatar, { responseType: "arraybuffer" });
         const avatarImg = await loadImage(avatarResp.data);
 
-        const avatarCenterX = 310; // يمين شوي
-        const avatarCenterY = 240; // نزلناه شوي
-        const avatarRadius = 60;
+        const avatarCenterX = 180; // يمين أو يسار
+        const avatarCenterY = 175; // فوق أو تحت
+        const avatarRadius = 60;   // حجم الدائرة
 
         ctx.save();
         ctx.beginPath();
@@ -48,12 +48,15 @@ app.get("/review", async (req, res) => {
         );
         ctx.restore();
 
-        // 🟦 الاسم داخل المربع الصغير بجانب الدائرة
+        // 🟦 الاسم داخل المربع الصغير بجانب الدائرة (إحداثيات مستقلة)
+        const nameX = 260; // يمين أو يسار
+        const nameY = 150; // فوق أو تحت
+
         ctx.fillStyle = "#ffffff";
         ctx.font = "bold 28px Arial";
         ctx.textAlign = "left";
         ctx.textBaseline = "middle";
-        ctx.fillText(username, avatarCenterX + avatarRadius + 45, avatarCenterY - 5);
+        ctx.fillText(username, nameX, nameY);
 
         // 🟪 نص التقييم داخل المربع الكبير بالمنتصف
         ctx.font = "bold 42px Arial";
