@@ -31,7 +31,7 @@ app.get("/review", async (req, res) => {
         const avatarImg = await loadImage(avatarResp.data);
 
         const avatarCenterX = 310; // يمين أو يسار
-        const avatarCenterY = 270; // فوق أو تحت
+        const avatarCenterY = 230; // فوق أو تحت
         const avatarRadius = 75;   // حجم الدائرة
 
         ctx.save();
