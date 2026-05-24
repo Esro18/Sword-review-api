@@ -32,7 +32,7 @@ app.get("/review", async (req, res) => {
 
         const avatarCenterX = 310; // يمين أو يسار
         const avatarCenterY = 240; // فوق أو تحت
-        const avatarRadius = 60;   // حجم الدائرة
+        const avatarRadius = 90;   // حجم الدائرة
 
         ctx.save();
         ctx.beginPath();
