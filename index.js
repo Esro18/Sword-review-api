@@ -49,7 +49,7 @@ app.get("/review", async (req, res) => {
         ctx.restore();
 
         // 🟦 الاسم داخل المربع الصغير بجانب الدائرة (إحداثيات مستقلة)
-        const nameX = 360; // يمين أو يسار
+        const nameX = 400; // يمين أو يسار
         const nameY = 225; // فوق أو تحت
 
         ctx.fillStyle = "#ffffff";
