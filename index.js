@@ -50,7 +50,7 @@ app.get("/review", async (req, res) => {
 
         // 🟦 الاسم داخل المربع الصغير بجانب الدائرة (إحداثيات مستقلة)
         const nameX = 410; // يمين أو يسار
-        const nameY = 205; // فوق أو تحت
+        const nameY = 230; // فوق أو تحت
 
         ctx.fillStyle = "#ffffff";
         ctx.font = "bold 28px Arial";
